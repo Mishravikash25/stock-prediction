@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Economic Times - Markets Feed</title>
+    <link>https://economictimes.indiatimes.com</link>
+    <description>Latest Indian market news</description>
+    <item>
+      <title>Government hikes export duty on iron ore and steel products</title>
+      <link>https://economictimes.indiatimes.com/markets/commodities/news/govt-hikes-export-duty-on-steel/articleshow/98765432.cms</link>
+      <description>The Ministry of Finance has levied a 15% export duty on selected flat and long steel items to support domestic manufacturing.</description>
+      <pubDate>Wed, 15 Mar 2023 08:30:00 GMT</pubDate>
+      <guid>https://economictimes.indiatimes.com/markets/commodities/news/govt-hikes-export-duty-on-steel/articleshow/98765432.cms</guid>
+    </item>
+    <item>
+      <title>Crude oil plunges to 15-month low amid global banking stability concerns</title>
+      <link>https://economictimes.indiatimes.com/markets/commodities/news/crude-oil-plunges-to-15-month-low/articleshow/98765433.cms</link>
+      <description>Brent crude dropped below $75 per barrel as financial contagion fears dampened global demand outlook.</description>
+      <pubDate>Wed, 15 Mar 2023 11:00:00 GMT</pubDate>
+      <guid>https://economictimes.indiatimes.com/markets/commodities/news/crude-oil-plunges-to-15-month-low/articleshow/98765433.cms</guid>
+    </item>
+  </channel>
+</rss>

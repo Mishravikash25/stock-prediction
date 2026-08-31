@@ -1,0 +1,41 @@
+{
+  "realtime_start": "2023-04-01",
+  "realtime_end": "2023-04-01",
+  "observation_start": "2023-03-10",
+  "observation_end": "2023-03-15",
+  "units": "Lin",
+  "output_type": 1,
+  "file_type": "json",
+  "order_by": "observation_date",
+  "sort_order": "asc",
+  "count": 4,
+  "offset": 0,
+  "limit": 100000,
+  "series_id": "DCOILBRENTEU",
+  "observations": [
+    {
+      "realtime_start": "2023-04-01",
+      "realtime_end": "2023-04-01",
+      "date": "2023-03-10",
+      "value": "82.45"
+    },
+    {
+      "realtime_start": "2023-04-01",
+      "realtime_end": "2023-04-01",
+      "date": "2023-03-13",
+      "value": "80.65"
+    },
+    {
+      "realtime_start": "2023-04-01",
+      "realtime_end": "2023-04-01",
+      "date": "2023-03-14",
+      "value": "."
+    },
+    {
+      "realtime_start": "2023-04-01",
+      "realtime_end": "2023-04-01",
+      "date": "2023-03-15",
+      "value": "74.80"
+    }
+  ]
+}

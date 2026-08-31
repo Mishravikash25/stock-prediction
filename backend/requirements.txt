@@ -1,0 +1,20 @@
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.7.0
+pydantic-settings>=2.2.0
+sqlalchemy>=2.0.28
+asyncpg>=0.29.0
+aiosqlite>=0.20.0
+alembic>=1.13.1
+httpx>=0.27.0
+tenacity>=8.2.3
+feedparser>=6.0.11
+yfinance>=0.2.37
+redis>=5.0.3
+celery>=5.3.6
+
+# Testing
+pytest>=8.1.1
+pytest-asyncio>=0.23.6
+pytest-cov>=4.1.0
+respx>=0.21.1
