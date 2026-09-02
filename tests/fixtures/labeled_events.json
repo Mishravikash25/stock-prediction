@@ -1,0 +1,46 @@
+[
+  {
+    "id": "fixture_evt_01",
+    "raw_text": "Brent crude oil prices plunged 8% to $74.50 per barrel today following an unexpected inventory build and weakening global energy demand outlook.",
+    "expected_archetype": "COMMODITY_SHOCK",
+    "expected_origin_id": "COMM_BRENT_CRUDE",
+    "expected_origin_type": "COMMODITY",
+    "expected_shock_direction": "NEGATIVE",
+    "expected_touched_sectors": ["SEC_ENERGY"],
+    "expected_touched_commodities": ["COMM_BRENT_CRUDE"],
+    "expected_touched_companies": ["ONGC.NS", "IOC.NS", "BPCL.NS", "RELIANCE.NS"]
+  },
+  {
+    "id": "fixture_evt_02",
+    "raw_text": "Ministry of Finance imposes an immediate 15% export duty on steel products including flat steel and hot-rolled coils to control domestic metal inflation.",
+    "expected_archetype": "POLICY_TAX_CHANGE",
+    "expected_origin_id": "SEC_STEEL",
+    "expected_origin_type": "SECTOR",
+    "expected_shock_direction": "NEGATIVE",
+    "expected_touched_sectors": ["SEC_STEEL", "SEC_AUTO"],
+    "expected_touched_commodities": ["COMM_HRC_STEEL"],
+    "expected_touched_companies": ["TATASTEEL.NS", "JSWSTEEL.NS", "TATAMOTORS.NS", "MARUTI.NS"]
+  },
+  {
+    "id": "fixture_evt_03",
+    "raw_text": "Severe flooding in Western Australia shuts down key railway corridor halting coking coal shipments to Port Hedland, disrupting global blast furnace operations.",
+    "expected_archetype": "SUPPLY_DISRUPTION",
+    "expected_origin_id": "COMM_COKING_COAL",
+    "expected_origin_type": "COMMODITY",
+    "expected_shock_direction": "NEGATIVE",
+    "expected_touched_sectors": ["SEC_STEEL"],
+    "expected_touched_commodities": ["COMM_COKING_COAL"],
+    "expected_touched_companies": ["TATASTEEL.NS", "JSWSTEEL.NS", "JINDALSTEL.NS"]
+  },
+  {
+    "id": "fixture_evt_04",
+    "raw_text": "Reserve Bank of India Monetary Policy Committee hikes Repo Rate by 50 basis points to 6.50% to curb persistent core inflation pressure.",
+    "expected_archetype": "MACRO_RATE_SHIFT",
+    "expected_origin_id": "MACRO_RBI_REPO",
+    "expected_origin_type": "MACRO",
+    "expected_shock_direction": "NEGATIVE",
+    "expected_touched_sectors": ["SEC_AUTO"],
+    "expected_touched_commodities": [],
+    "expected_touched_companies": ["TATAMOTORS.NS", "MARUTI.NS", "M&M.NS", "BAJAJ-AUTO.NS"]
+  }
+]
