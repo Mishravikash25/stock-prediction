@@ -86,7 +86,8 @@ export const Header: React.FC = () => {
               placeholder="Search ticker (e.g. TATAMOTORS.NS)..."
               value={quickSearch}
               onChange={(e) => setQuickSearch(e.target.value)}
-              className="w-56 lg:w-64 pl-8 pr-3 py-1.5 text-xs font-mono bg-surface-1 border border-border rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-all"
+              className="w-56 lg:w-64 pl-8 pr-3 py-1.5 text-xs font-mono bg-surface-1 border border-border rounded-lg text-text-input placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-all"
+              style={{ color: "var(--text-input)" }}
             />
           </form>
 

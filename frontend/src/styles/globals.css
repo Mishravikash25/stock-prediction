@@ -21,6 +21,7 @@
   --text-primary: #E8ECF2;    /* Contrast ratio 14.2:1 against --bg */
   --text-muted: #8896AB;      /* Contrast ratio 5.1:1 against --bg */
   --text-dim: #546277;        /* De-emphasized timestamps & table headers */
+  --text-input: #000000;      /* Fixed black input text for high contrast search input */
 
   /* Semantic Financial Accents */
   --accent-positive: #10B981; /* Emerald 500 (Bullish, Gain, Inflow) */
@@ -56,6 +57,7 @@
   --text-primary: #0F172A;    /* Slate 900 (Contrast 15.8:1 against --bg) */
   --text-muted: #526075;      /* Slate 600 (Contrast 6.2:1 against --bg) */
   --text-dim: #8291A5;        /* Secondary timestamp text */
+  --text-input: #000000;      /* Fixed black input text for high contrast search input */
 
   /* Semantic Financial Accents (Adjusted for Light Surface Contrast) */
   --accent-positive: #059669; /* Emerald 600 */

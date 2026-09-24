@@ -17,6 +17,7 @@ export default {
         'text-primary': 'var(--text-primary)',
         'text-muted': 'var(--text-muted)',
         'text-dim': 'var(--text-dim)',
+        'text-input': 'var(--text-input)',
         'accent-positive': 'var(--accent-positive)',
         'accent-positive-bg': 'var(--accent-positive-bg)',
         'accent-negative': 'var(--accent-negative)',
