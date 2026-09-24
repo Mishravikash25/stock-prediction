@@ -241,13 +241,120 @@ SAMPLE_EVENTS_SEED: List[Dict[str, Any]] = [
         "llm_classification_metadata": {
             "policy_type": "EXPORT_TARIFF",
             "tariff_rate_pct": 15.0,
-            "direct_mechanism": "Export duty reduces foreign sales realization, expanding domestic supply and dampening domestic steel prices."
+            "direct_mechanism": "Export duty reduces foreign sales realization, expanding domestic supply and dampening domestic steel prices.",
+            "touched_sectors": ["SEC_STEEL", "SEC_AUTO"],
+            "touched_commodities": ["COMM_HRC_STEEL", "COMM_IRON_ORE"]
         },
         "links": [
             {"entity_id": "TATASTEEL.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.95},
             {"entity_id": "JSWSTEEL.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.95},
             {"entity_id": "COMM_HRC_STEEL", "entity_type": "COMMODITY", "mention_role": "PRIMARY_SOURCE", "confidence": 0.95},
             {"entity_id": "SEC_AUTO", "entity_type": "SECTOR", "mention_role": "MENTIONED_PEER", "confidence": 0.85},
+        ]
+    },
+    {
+        "event_id": "evt_2023_crude_supply_choke",
+        "occurred_at": "2023-04-12T00:00:00+00:00",
+        "headline": "Red Sea Shipping Disruptions and Refinery Outage Choke Crude Feedstock",
+        "raw_source_text": "Attacks on commercial maritime transit and unexpected maintenance shutdowns at major Middle Eastern export terminals have triggered a sharp spike in freight rates and delivered crude prices for Asian refiners.",
+        "source_channel": "REUTERS_ENERGY",
+        "source_url": "https://reuters.com/business/energy/middle-east-crude-supply",
+        "archetype": "SUPPLY_DISRUPTION",
+        "origin_entity_id": "COMM_BRENT_CRUDE",
+        "origin_entity_type": "COMMODITY",
+        "shock_magnitude": -0.65,
+        "nlp_confidence": 0.92,
+        "finbert_sentiment": -0.68,
+        "llm_classification_metadata": {
+            "disruption_cause": "MARITIME_CHOKEPOINT",
+            "direct_mechanism": "Crude shipping delays increase landed cost of feedstock, compressing gross refining margins for downstream downstream petrochemical producers.",
+            "touched_sectors": ["SEC_ENERGY"],
+            "touched_commodities": ["COMM_BRENT_CRUDE", "COMM_NATURAL_GAS"]
+        },
+        "links": [
+            {"entity_id": "IOC.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.95},
+            {"entity_id": "BPCL.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.95},
+            {"entity_id": "RELIANCE.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.90},
+            {"entity_id": "COMM_BRENT_CRUDE", "entity_type": "COMMODITY", "mention_role": "PRIMARY_SOURCE", "confidence": 0.98},
+        ]
+    },
+    {
+        "event_id": "evt_2023_rbi_repo_hike_50bps",
+        "occurred_at": "2023-02-08T00:00:00+00:00",
+        "headline": "RBI Monetary Policy Committee Hikes Repo Rate by 50 bps to 6.50%",
+        "raw_source_text": "The Reserve Bank of India raised the benchmark repo rate by 50 basis points to anchor core inflation and stabilize the exchange rate, signaling sustained vigilance on borrowing costs.",
+        "source_channel": "RBI_MONETARY_POLICY",
+        "source_url": "https://rbi.org.in/press/mpc_2023",
+        "archetype": "MACRO_RATE_SHIFT",
+        "origin_entity_id": "MACRO_RBI_REPO",
+        "origin_entity_type": "MACRO",
+        "shock_magnitude": -0.55,
+        "nlp_confidence": 0.98,
+        "finbert_sentiment": -0.45,
+        "llm_classification_metadata": {
+            "rate_change_bps": 50.0,
+            "direct_mechanism": "Higher policy rates increase auto loan financing rates, dampening discretionary consumer vehicle purchases and dealership floor-plan liquidity.",
+            "touched_sectors": ["SEC_AUTO"],
+            "touched_commodities": []
+        },
+        "links": [
+            {"entity_id": "TATAMOTORS.NS", "entity_type": "COMPANY", "mention_role": "SENSITIVE_TARGET", "confidence": 0.88},
+            {"entity_id": "MARUTI.NS", "entity_type": "COMPANY", "mention_role": "SENSITIVE_TARGET", "confidence": 0.88},
+            {"entity_id": "M&M.NS", "entity_type": "COMPANY", "mention_role": "SENSITIVE_TARGET", "confidence": 0.85},
+            {"entity_id": "SEC_AUTO", "entity_type": "SECTOR", "mention_role": "PRIMARY_SOURCE", "confidence": 0.92},
+        ]
+    },
+    {
+        "event_id": "evt_2023_coking_coal_surge",
+        "occurred_at": "2023-09-18T00:00:00+00:00",
+        "headline": "Queensland Flooding Causes 28% Spike in Premium Coking Coal Benchmark",
+        "raw_source_text": "Severe cyclone precipitation flooded open-cut coal pits in the Bowen Basin, halting rail haulage to ports and driving metallurgical coking coal spot prices to multi-month highs.",
+        "source_channel": "COMMODITY_INSIGHTS",
+        "source_url": "https://spglobal.com/commodityinsights/coal",
+        "archetype": "COMMODITY_SHOCK",
+        "origin_entity_id": "COMM_COKING_COAL",
+        "origin_entity_type": "COMMODITY",
+        "shock_magnitude": 0.72,
+        "nlp_confidence": 0.94,
+        "finbert_sentiment": -0.58,
+        "llm_classification_metadata": {
+            "commodity": "COKING_COAL",
+            "price_move_pct": 28.0,
+            "direct_mechanism": "Coking coal is a non-substitutable primary reducing agent in blast furnaces; price spikes immediately elevate cost per tonne of liquid steel.",
+            "touched_sectors": ["SEC_STEEL"],
+            "touched_commodities": ["COMM_COKING_COAL", "COMM_HRC_STEEL"]
+        },
+        "links": [
+            {"entity_id": "TATASTEEL.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.96},
+            {"entity_id": "JSWSTEEL.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.96},
+            {"entity_id": "COMM_COKING_COAL", "entity_type": "COMMODITY", "mention_role": "PRIMARY_SOURCE", "confidence": 0.98},
+            {"entity_id": "SEC_STEEL", "entity_type": "SECTOR", "mention_role": "AFFECTED_SECTOR", "confidence": 0.95},
+        ]
+    },
+    {
+        "event_id": "evt_2023_auto_chip_shortage",
+        "occurred_at": "2023-06-25T00:00:00+00:00",
+        "headline": "Taiwanese Fab Contamination Halts Automotive MCU Fabrication Lines",
+        "raw_source_text": "Chemical contamination at a leading 300mm wafer fabrication facility has caused an estimated 6-week halt in micro-controller unit (MCU) supply, prompting auto manufacturers to trim production schedules.",
+        "source_channel": "SEMICONDUCTOR_DIGEST",
+        "source_url": "https://digitimes.com/news/auto_semi",
+        "archetype": "SUPPLY_DISRUPTION",
+        "origin_entity_id": "COMM_CHIP_SEMI",
+        "origin_entity_type": "COMMODITY",
+        "shock_magnitude": -0.60,
+        "nlp_confidence": 0.91,
+        "finbert_sentiment": -0.62,
+        "llm_classification_metadata": {
+            "subsystem": "POWERTRAIN_MCUS",
+            "direct_mechanism": "Chip shortage limits vehicle assembly completion, causing finished inventory delays and margin dilution.",
+            "touched_sectors": ["SEC_AUTO"],
+            "touched_commodities": ["COMM_CHIP_SEMI"]
+        },
+        "links": [
+            {"entity_id": "TATAMOTORS.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.92},
+            {"entity_id": "MARUTI.NS", "entity_type": "COMPANY", "mention_role": "DIRECT_TARGET", "confidence": 0.92},
+            {"entity_id": "BOSCHLTD.NS", "entity_type": "COMPANY", "mention_role": "TIER1_SUPPLIER", "confidence": 0.95},
+            {"entity_id": "SEC_AUTO", "entity_type": "SECTOR", "mention_role": "PRIMARY_SOURCE", "confidence": 0.90},
         ]
     }
 ]

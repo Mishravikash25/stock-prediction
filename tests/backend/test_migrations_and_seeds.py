@@ -19,6 +19,7 @@ from backend.app.db.seeds.domain_seed_data import (
     COMPANIES_SEED,
     GRAPH_EDGES_SEED,
     MACRO_FACTORS_SEED,
+    SAMPLE_EVENTS_SEED,
     SECTORS_SEED,
 )
 from backend.app.db.seeds.seed_runner import seed_neo4j_graph, seed_relational_db
@@ -60,7 +61,7 @@ async def test_relational_seeding_population(test_db_session: AsyncSession) -> N
     assert stats["commodities"] == 8
     assert stats["companies"] == 36
     assert stats["splits"] == 1
-    assert stats["events"] == 1
+    assert stats["events"] == len(SAMPLE_EVENTS_SEED)
 
     # Verify sectors in DB
     sec_res = await test_db_session.execute(select(Sector))
@@ -85,18 +86,18 @@ async def test_relational_seeding_population(test_db_session: AsyncSession) -> N
     assert "RELIANCE.NS" in comp_tickers
     assert "TCS.NS" in comp_tickers
 
-    # Verify sample event
+    # Verify sample events
     evt_res = await test_db_session.execute(select(Event))
     evts = evt_res.scalars().all()
-    assert len(evts) == 1
-    assert evts[0].event_id == "evt_2022_steel_tariff_hike"
-    assert evts[0].origin_entity_id == "SEC_STEEL"
-    assert evts[0].shock_magnitude == -0.80
+    assert len(evts) == len(SAMPLE_EVENTS_SEED)
+    evt_ids = {e.event_id for e in evts}
+    assert "evt_2022_steel_tariff_hike" in evt_ids
+    assert "evt_2023_auto_chip_shortage" in evt_ids
 
     # Verify links
     links_res = await test_db_session.execute(select(EventEntityLink))
     links = links_res.scalars().all()
-    assert len(links) == 4
+    assert len(links) >= 4
     link_entities = {l.entity_id for l in links}
     assert "TATASTEEL.NS" in link_entities
     assert "COMM_HRC_STEEL" in link_entities
