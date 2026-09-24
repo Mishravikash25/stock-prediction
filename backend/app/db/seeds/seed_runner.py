@@ -322,8 +322,8 @@ async def seed_neo4j_graph(neo4j_client: Neo4jClient) -> Dict[str, int]:
 
 async def main() -> None:
     """CLI execution entrypoint."""
-    from backend.app.db.session import async_session_factory
-    from backend.app.db.base import Base, engine
+    from backend.app.db.session import async_session_factory, engine
+    from backend.app.db.base import Base
 
     logger.info("Starting relational database seeding...")
     async with engine.begin() as conn:

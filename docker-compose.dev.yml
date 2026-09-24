@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL with TimescaleDB Extension (Relational domain & financial time series)
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: market_ripple_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: market_ripple
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d market_ripple"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Neo4j Graph Database (Multi-hop structural supply chain and shock transmission)
+  neo4j:
+    image: neo4j:5.20-community
+    container_name: market_ripple_neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/market_ripple_secret
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_memory_heap_initial__size: 512m
+      NEO4J_dbms_memory_heap_max__size: 1G
+    ports:
+      - "7474:7474" # HTTP Browser
+      - "7687:7687" # Bolt Protocol
+    volumes:
+      - neo4jdata_dev:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 3. Redis (Message broker & task queue for Celery async evaluation)
+  redis:
+    image: redis:7.2-alpine
+    container_name: market_ripple_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata_dev:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata_dev:
+    driver: local
+  neo4jdata_dev:
+    driver: local
+  redisdata_dev:
+    driver: local

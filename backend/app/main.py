@@ -1,10 +1,11 @@
 """
 FastAPI Application Entry Point
 ===============================
-Configures CORS middleware, health check endpoint, exception handlers,
+Configures CORS middleware, startup lifespan, health check endpoint, exception handlers,
 and mounts API v1 sub-routers.
 """
 
+from contextlib import asynccontextmanager
 import logging
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,13 +19,43 @@ logging.basicConfig(
 )
 logger = logging.getLogger("market_ripple_api")
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan managing database initialization and seed data loading."""
+    logger.info("Initializing application resources and schema...")
+    try:
+        from backend.app.db.base import Base
+        from backend.app.db.session import engine, async_session_factory
+        from backend.app.db.seeds.seed_runner import seed_relational_db
+
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+
+        async with async_session_factory() as session:
+            await seed_relational_db(session)
+        logger.info("Database schema and domain seed data initialized.")
+    except Exception as err:
+        logger.warning("Startup database initialization notice: %s", err)
+
+    yield
+
+    logger.info("Shutting down application resources...")
+    try:
+        from backend.app.db.session import engine
+        await engine.dispose()
+    except Exception:
+        pass
+
+
 app = FastAPI(
     title="Explainable AI Market Ripple Engine API",
     description="Cross-tier economic supply chain shock propagation, XGBoost multi-factor scoring, and SHAP dual-theses.",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    openapi_url="/openapi.json",
+    lifespan=lifespan,
 )
 
 # CORS Middleware
