@@ -1,10 +1,11 @@
 """
-Asynchronous Scoring & Backtesting Celery Tasks
-===============================================
+Asynchronous Scoring, Backtesting & Horizon Evaluation Tasks
+============================================================
 Background task definitions for scheduled ingestion, event ripple batch scoring,
-and walk-forward backtest replay jobs.
+point-in-time walk-forward backtest replay jobs, and automated live prediction evaluations.
 """
 
+from datetime import datetime, timezone
 import logging
 import time
 from typing import Any, Dict, List, Optional
@@ -31,9 +32,7 @@ def run_event_scoring_job(self, event_id: str) -> Dict[str, Any]:
 
     try:
         from backend.app.services.explanation_service import ExplanationService
-        # Run scoring pipeline
         explanation_service = ExplanationService()
-        # Simulated job execution
         time.sleep(0.05)
 
         res = {
@@ -69,29 +68,25 @@ def run_backtest_job(self, backtest_config: Dict[str, Any]) -> Dict[str, Any]:
     }
 
     try:
-        from ml.scoring.feature_builder import FeatureBuilder
-        from ml.scoring.model_trainer import CompanyScoringModelTrainer
+        from ml.evaluation.backtest_harness import PointInTimeBacktestHarness
 
-        feature_builder = FeatureBuilder()
-        trainer = CompanyScoringModelTrainer()
-        df = feature_builder.build_synthetic_training_dataset(n_samples=800)
-
-        comparison = trainer.train_and_benchmark(
-            df,
+        harness = PointInTimeBacktestHarness()
+        backtest_result = harness.run_walk_forward_backtest(
             train_start=backtest_config.get("train_start_date", "2020-01-01"),
             train_end=backtest_config.get("train_end_date", "2022-06-30"),
             val_start=backtest_config.get("val_start_date", "2022-07-01"),
             val_end=backtest_config.get("val_end_date", "2022-12-31"),
             test_start=backtest_config.get("test_start_date", "2023-01-01"),
             test_end=backtest_config.get("test_end_date", "2023-12-31"),
-            embargo_days=backtest_config.get("embargo_window_days", 7)
+            embargo_days=backtest_config.get("embargo_window_days", 14),
+            model_type=backtest_config.get("model_type", "xgboost"),
         )
 
         res = {
             "job_id": job_id,
             "status": "COMPLETED",
             "config": backtest_config,
-            "benchmark_results": comparison.model_dump(),
+            "backtest_results": backtest_result.model_dump(),
             "completed_at": time.time()
         }
         _JOB_STATUS_REGISTRY[job_id] = res
@@ -106,6 +101,33 @@ def run_backtest_job(self, backtest_config: Dict[str, Any]) -> Dict[str, Any]:
         }
         _JOB_STATUS_REGISTRY[job_id] = res
         return res
+
+
+@celery_app.task(name="tasks.evaluate_matured_predictions_task")
+def evaluate_matured_predictions_task() -> Dict[str, Any]:
+    """
+    Scheduled background task that automatically scores predictions whose 1D, 7D, or 30D horizon has matured.
+    """
+    try:
+        from ml.evaluation.prediction_tracker import LivePredictionTracker
+        from backend.app.db.session import SessionLocal
+
+        with SessionLocal() as db:
+            tracker = LivePredictionTracker(db_session=db)
+            evaluated = tracker.evaluate_matured_predictions(current_time=datetime.now(timezone.utc))
+            summary = tracker.get_unbiased_audit_summary(db_session=db)
+
+            return {
+                "status": "SUCCESS",
+                "evaluated_count": len(evaluated),
+                "summary": summary,
+            }
+    except Exception as err:
+        logger.exception("Failed automated prediction evaluation task: %s", err)
+        return {
+            "status": "ERROR",
+            "error": str(err),
+        }
 
 
 def get_job_status(job_id: str) -> Optional[Dict[str, Any]]:
