@@ -1,0 +1,39 @@
+name: CI Workflow — Market Ripple Engine
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  backend-and-ml-test:
+    name: Backend & ML Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install System Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r backend/requirements.txt
+          pip install xgboost lightgbm shap pytest pytest-asyncio pytest-cov respx httpx
+
+      - name: Run Syntax & Imports Check
+        run: |
+          python -c "import xgboost, lightgbm, shap, fastapi, sqlalchemy, networkx, spacy; print('Core dependencies verified!')"
+
+      - name: Run Test Suite with Pytest Coverage
+        run: |
+          python -m pytest -v --cov=backend --cov=ml --cov-report=term-missing --cov-fail-under=80
