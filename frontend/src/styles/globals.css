@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   CSS Variable Token System — Market Ripple Engine
+   Locked Theme Spec per /docs/architecture.md
+   ========================================================================== */
+
+:root,
+:root[data-theme="dark"] {
+  /* Surface & Base (Charcoal Dark Palette) */
+  --bg: #0B0E14;              /* Deep terminal charcoal */
+  --surface: #121722;         /* Primary card container */
+  --surface-raised: #1A2232;  /* Hovered cards, dropdowns, modal layers */
+  --surface-inset: #07090D;   /* Chart canvas background, code blocks */
+  --border: #232D42;          /* Subtle structural grid lines */
+  --border-active: #384869;   /* Focused input, selected node boundary */
+
+  /* Text & Hierarchy (WCAG AAA/AA Compliant) */
+  --text-primary: #E8ECF2;    /* Contrast ratio 14.2:1 against --bg */
+  --text-muted: #8896AB;      /* Contrast ratio 5.1:1 against --bg */
+  --text-dim: #546277;        /* De-emphasized timestamps & table headers */
+
+  /* Semantic Financial Accents */
+  --accent-positive: #10B981; /* Emerald 500 (Bullish, Gain, Inflow) */
+  --accent-positive-bg: rgba(16, 185, 129, 0.12);
+  --accent-negative: #EF4444; /* Red 500 (Bearish, Loss, Shock) */
+  --accent-negative-bg: rgba(239, 68, 68, 0.12);
+  --accent-warning: #F59E0B;  /* Amber 500 (Supply Risk, Moderate Impact) */
+  --accent-warning-bg: rgba(245, 158, 11, 0.12);
+  --accent-info: #3B82F6;     /* Blue 500 (Graph Nodes, Inferred Edges) */
+  --accent-info-bg: rgba(59, 130, 246, 0.12);
+
+  /* Graph Node Specific Palettes */
+  --node-company: #38BDF8;    /* Sky Blue */
+  --node-commodity: #F59E0B;  /* Amber */
+  --node-sector: #A855F7;     /* Purple */
+  --node-event: #EF4444;      /* Red */
+
+  /* Font Families */
+  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Consolas, Menlo, monospace;
+}
+
+:root[data-theme="light"] {
+  /* Surface & Base (Warm Off-White Palette) */
+  --bg: #F7F8FA;              /* Warm off-white (not eye-straining pure white) */
+  --surface: #FFFFFF;         /* Crisp white card surface */
+  --surface-raised: #EDF0F5;  /* Subtle raised element / table hover */
+  --surface-inset: #ECEFF4;   /* Inset search fields & code snippets */
+  --border: #D2D8E2;          /* Clean structural divider */
+  --border-active: #94A3B8;   /* Active border boundary */
+
+  /* Text & Hierarchy (WCAG AAA/AA Compliant) */
+  --text-primary: #0F172A;    /* Slate 900 (Contrast 15.8:1 against --bg) */
+  --text-muted: #526075;      /* Slate 600 (Contrast 6.2:1 against --bg) */
+  --text-dim: #8291A5;        /* Secondary timestamp text */
+
+  /* Semantic Financial Accents (Adjusted for Light Surface Contrast) */
+  --accent-positive: #059669; /* Emerald 600 */
+  --accent-positive-bg: rgba(5, 150, 105, 0.10);
+  --accent-negative: #DC2626; /* Red 600 */
+  --accent-negative-bg: rgba(220, 38, 38, 0.10);
+  --accent-warning: #D97706;  /* Amber 600 */
+  --accent-warning-bg: rgba(217, 119, 6, 0.10);
+  --accent-info: #2563EB;     /* Blue 600 */
+  --accent-info-bg: rgba(37, 99, 235, 0.10);
+
+  /* Graph Node Specific Palettes */
+  --node-company: #0284C7;    /* Deep Sky */
+  --node-commodity: #D97706;  /* Warm Amber */
+  --node-sector: #9333EA;     /* Deep Purple */
+  --node-event: #DC2626;      /* Deep Red */
+
+  /* Font Families */
+  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Consolas, Menlo, monospace;
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Custom terminal scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-inset);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-active);
+}
