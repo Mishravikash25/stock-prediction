@@ -16,14 +16,19 @@ DATABASE_URL = os.getenv(
 
 # SQLite in-memory needs StaticPool or connect_args for multithreading / foreign keys
 connect_args = {}
+engine_kwargs = {}
 if DATABASE_URL.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
+    if ":memory:" in DATABASE_URL:
+        from sqlalchemy.pool import StaticPool
+        engine_kwargs["poolclass"] = StaticPool
 
 engine = create_async_engine(
     DATABASE_URL,
     echo=os.getenv("SQL_DEBUG", "0") == "1",
     connect_args=connect_args,
-    future=True
+    future=True,
+    **engine_kwargs
 )
 
 async_session_factory = async_sessionmaker(
