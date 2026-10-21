@@ -71,6 +71,19 @@ app.add_middleware(
 app.include_router(api_v1_router)
 
 
+@app.get("/", tags=["System"])
+async def root():
+    """Root entrypoint providing service status and links to documentation."""
+    return {
+        "title": "Explainable AI Market Ripple Engine API",
+        "status": "HEALTHY",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health",
+        "api_v1": "/api/v1"
+    }
+
+
 @app.get("/health", tags=["System"])
 async def health_check():
     """Health check endpoint for container orchestrators and load balancers."""

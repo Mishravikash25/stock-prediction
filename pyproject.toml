@@ -46,6 +46,12 @@ dev = [
     "mypy>=1.9.0",
 ]
 
+[tool.vercel]
+entrypoint = "backend.app.main:app"
+
+[tool.setuptools.packages.find]
+include = ["backend*", "ml*"]
+
 [tool.pytest.ini_options]
 minversion = "8.0"
 testpaths = ["tests"]
@@ -55,3 +61,4 @@ asyncio_mode = "strict"
 [tool.coverage.run]
 source = ["backend", "ml"]
 omit = ["tests/*"]
+
